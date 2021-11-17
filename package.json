@@ -4,11 +4,7 @@
   "author": "trungpq163",
   "license": "MIT",
   "main": "dist/index.js",
-  "scripts": {
-    "start": "node dist/index.js",
-    "build": "rimraf build && tsc",
-    "dev": "nodemon dist/index.js"
-  },
+  "scripts": {},
   "dependencies": {
     "express": "^4.17.1"
   },
