@@ -1,1 +1,9 @@
-/src
+node_modules
+.vercel
+.bin
+package-lock.json
+yarn.lock
+yarn-error.log
+.env
+.env**
+**.env
