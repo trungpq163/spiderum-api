@@ -1,9 +1,8 @@
 import express from 'express';
+import { loginCtrl } from '../../controllers/auth';
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-  res.send('Hello World!');
-});
+router.route('/login').post(loginCtrl);
 
 export default router;
