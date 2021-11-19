@@ -1,17 +1,13 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
 
-export interface ILoginService {
-  name: string;
-  password: string;
-  redirectUrl?: string;
-}
+import { ILogin } from '../../types';
 
 export const loginService = ({
   name,
   password,
   redirectUrl = process.env.SPIDERUM_REDIRECT_URL,
-}: ILoginService) => {
+}: ILogin) => {
   const data = qs.stringify({
     name,
     password,
