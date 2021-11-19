@@ -1,5 +1,12 @@
 {
-  "cSpell.words": ["fileupload", "middlewares", "trungpq", "vercel"],
+  "cSpell.words": [
+    "fileupload",
+    "middlewares",
+    "trungpq",
+    "unsave",
+    "unvote",
+    "vercel"
+  ],
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,

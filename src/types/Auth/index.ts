@@ -1,6 +1,7 @@
 export interface ILogin {
   name?: string;
   password?: string;
+  redirectUrl?: string;
 }
 
 export interface IAuth {

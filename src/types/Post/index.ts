@@ -43,4 +43,6 @@ export interface IGetPosts {
 
 export interface ISetPost {
   post_id: ObjectId;
+  action?: number;
+  token: string;
 }

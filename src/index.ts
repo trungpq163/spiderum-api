@@ -7,6 +7,7 @@ import express from 'express';
 import fileUpload from 'express-fileupload';
 
 import auth from './api/auth';
+import userPost from './api/user-post';
 
 // Call config dotenv
 config();
@@ -36,6 +37,7 @@ app.get('/', (req, res) => {
 
 // Mount routes
 app.use('/api/v1/auth', auth);
+app.use('/api/v1/relation/user-post', userPost);
 
 // Error handler middleware (must be last)
 if (process.env.NODE_ENV === 'development') {
