@@ -12,12 +12,3 @@ export const getPostDetailsThroughRawHTMLService = ({
 
   return axios(config);
 };
-
-export const getPostDetailsService = ({ slug }: IGetPostDetails) => {
-  const config: AxiosRequestConfig = {
-    method: 'get',
-    url: `${process.env.SPIDERUM_API_V1_URL}/post/${slug}`,
-    headers: {},
-  };
-  return axios(config);
-};
