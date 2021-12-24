@@ -1,32 +1,25 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getPostDetails } from '../../services/post-details';
+import {
+  getPostDetailsThroughRawHTMLService,
+  getPostDetailsService,
+} from '../../services/post-details';
 import { Request, Response } from 'express';
 import { load } from 'cheerio';
 
 export const getPostDetailsCtrl = async (req: Request, res: Response) => {
   const { slug } = req.params;
   try {
-    const result = await getPostDetails({ slug });
-    if (result.status === 200) {
-      const $ = load(result.data);
-      $('.post').each((index: number, element: any) => {
-        const category = $(element).find('div .category a').children().text();
-        const title = $(element).find('.title').html();
-        const description = $(element)
-          .find('div .description')
-          .children()
-          .html()
-          .replace(/\n/g, '');
+    const resultFromRawHTML = await getPostDetailsThroughRawHTMLService({
+      slug,
+    });
+    const resultFromAPI = await getPostDetailsService({ slug });
 
-        const authorInfo = {
-          name: $(element).find('.author-info').find('.name').children().text(),
-          avatarURL: $(element).find('.avatar').find('img').attr('src'),
-          postCreatedDate: $(element)
-            .find('.author-info')
-            .find('.created-day')
-            .text(),
-        };
+    if (resultFromRawHTML.status === 200 && resultFromAPI.status === 200) {
+      const { post, postPageOptions } = resultFromAPI.data;
+
+      const $ = load(resultFromRawHTML.data);
+      $('.post').each((index: number, element: any) => {
         const contentList: string[] = [];
         $(element)
           .find('.editor')
@@ -60,11 +53,11 @@ export const getPostDetailsCtrl = async (req: Request, res: Response) => {
         res.status(200).json({
           status: 200,
           data: {
-            category,
-            title,
-            description,
-            authorInfo,
-            contentList,
+            post: {
+              ...post,
+              body: contentList,
+            },
+            postPageOptions,
           },
         });
       });
