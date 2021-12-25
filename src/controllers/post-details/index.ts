@@ -1,6 +1,9 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getPostDetailsThroughRawHTMLService } from '../../services/post-details';
+import {
+  getPostDetailsThroughRawHTMLService,
+  getPostDetailsService,
+} from '../../services/post-details';
 import { Request, Response } from 'express';
 import { load } from 'cheerio';
 
@@ -10,8 +13,10 @@ export const getPostDetailsCtrl = async (req: Request, res: Response) => {
     const resultFromRawHTML = await getPostDetailsThroughRawHTMLService({
       slug,
     });
+    const resultFromAPI = await getPostDetailsService({ slug });
 
-    if (resultFromRawHTML.status === 200) {
+    if (resultFromRawHTML.status === 200 && resultFromAPI.status === 200) {
+      const { post, postPageOptions } = resultFromAPI.data;
       const $ = load(resultFromRawHTML.data);
       $('.post').each((index: number, element: any) => {
         const contentList: string[] = [];
@@ -47,7 +52,11 @@ export const getPostDetailsCtrl = async (req: Request, res: Response) => {
         res.status(200).json({
           status: 200,
           data: {
-            contentList,
+            post: {
+              ...post,
+              body: contentList,
+            },
+            postPageOptions,
           },
         });
       });
